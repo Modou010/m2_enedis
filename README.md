@@ -9,49 +9,58 @@
 
 ## Objectif du projet
 
-L'objectif de **GreenTech Solutions** est de construire une chaîne complète d'analyse et de prédiction à partir des données publiques des **Diagnostics de Performance Énergétique (DPE)**.
+**GreenTech Solutions** vise à construire une chaîne complète d'analyse et de prédiction à partir des données publiques des **Diagnostics de Performance Énergétique (DPE)**.
 
 Le projet couvre toutes les étapes du cycle de la donnée :
 
 1. **Extraction et nettoyage** des données ADEME (DPE existants & neufs)  
 2. **Analyse exploratoire et modélisation** (classification & régression)  
-3. **Déploiement** d'une application web interactive sous **Dash**  
-4. **Documentation** technique et fonctionnelle, accompagnée d'une **vidéo de démonstration**
+3. **Déploiement** d'une application web interactive sous **Streamlit**  
+4. **Documentation** technique et fonctionnelle complètes
 
 ---
 
 ## Architecture du dépôt
 
-```
+```text
 m2_enedis/
-├── app/                     # Application Dash
-│   ├── app.py               # Serveur principal (Dash + API)
-│   ├── assets/              # Fichiers CSS, images
-│   ├── model/               # Modèles entraînés (.pkl)
-│   └── utils/               # Fonctions auxiliaires
+├── app/                     # code principal de l'application Streamlit
+│   ├── app.py               # point d'entrée de l'application (lancement local ou Render)
+│   ├── pages/               # pages multipages Streamlit (Contexte, Carte, Prédiction, etc.)
+│   ├── components/          # petits modules réutilisables : graphiques, filtres, exports...
+│   ├── model/               # modèles entraînés (fichiers .pkl / .joblib)
+│   ├── utils/               # fonctions d'aide : prétraitement, calculs, API, logs...
+│   ├── assets/              # feuilles CSS, icônes, images
+│   └── styles/              # thème ou fichiers de configuration Streamlit (.toml / .css)
 │
-├── data/
-│   ├── raw/                 # Données brutes ADEME
-│   └── processed/           # Données nettoyées
+├── data/                    # jeux de données utilisés
+│   ├── raw/                 # données brutes ADEME téléchargées (DPE existants et neufs)
+│   └── processed/           # données nettoyées, enrichies, prêtes à l'analyse ou à la modélisation
 │
-├── notebooks/               # Analyse et modélisation
+├── notebooks/               # analyses exploratoires et modélisation (Jupyter)
 │   ├── exploration.ipynb
 │   ├── classification.ipynb
 │   └── regression.ipynb
 │
-├── docker/                  # Conteneurisation
-│   └── Dockerfile
+├── docker/                  # conteneurisation de l'application
+│   └── Dockerfile           # instructions pour construire l'image Docker
 │
-├── docs/                    # Documentation et livrables
-│   ├── doc_technique.md
-│   ├── doc_fonctionnelle.md
-│   ├── rapport_ml.md
-│   └── assets/              # Schémas & captures d’écran
+├── docs/                    # documentation complète du projet
+│   ├── doc_technique.md     # ≤ 2 pages : installation, architecture, dépendances
+│   ├── doc_fonctionnelle.md # ≤ 2 pages : pages, fonctionnalités, parcours utilisateur
+│   ├── rapport_ml.md        # 4-6 pages : contexte, modèles, résultats, interprétation
+│   ├── SRS_TRACE.md         # matrice de traçabilité du cahier des charges
+│   ├── SCRUM_GITHUB_CHECKLIST.md  # suivi organisationnel et qualité (Scrum / GitHub)
+│   └── assets/              # schémas Draw.io, captures d'écran, logos
 │
-├── requirements.txt
-├── Procfile                 # Déploiement Render
-├── runtime.txt              # Version Python
-└── README.md
+├── tests/                   # vérifications minimales
+│   └── smoke_test.py        # "smoke test" : s'assure que les imports se font sans erreur
+│
+├── requirements.txt         # liste des librairies Python nécessaires
+├── Procfile                 # commande exécutée sur Render / Heroku (déploiement automatique)
+├── runtime.txt              # version Python utilisée
+├── README.md                # ce fichier : présentation du projet
+└── LICENSE
 ```
 
 ---
@@ -62,8 +71,8 @@ m2_enedis/
 |----------|--------|
 | Langage principal | Python 3.10+ |
 | Data & ML | pandas, numpy, scikit-learn |
-| Visualisation | Plotly Express, Dash |
-| API & déploiement | Flask, gunicorn, Render |
+| Visualisation | Plotly Express, Streamlit |
+| API & déploiement | requests, Render / Heroku |
 | Conteneurisation | Docker |
 | Collaboration | GitHub, Taiga (Scrum) |
 
@@ -75,9 +84,9 @@ m2_enedis/
 |---------|----------------|-------------------|
 | **Nico Dena** | Responsable data & intégration | Modélisation, documentation |
 | **Modou Mboup** | Responsable ML & qualité | Interface, déploiement |
-| **Rina Razafimahefa** | Responsable interface & design | Data, documentation |
+| **Rina Razafimahefa** | Responsable Interface & Design | Data, documentation |
 
-> Chaque membre a contribué à plusieurs volets du projet : la répartition est indicative mais la production a été collective et itérative selon les sprints.
+> Chaque membre a contribué à plusieurs volets : la répartition est indicative mais reflète la spécialisation de chacun.
 
 ---
 
@@ -85,8 +94,7 @@ m2_enedis/
 
 - Outil de gestion : [Taiga.io](https://tree.taiga.io/) – Méthode **Scrum**  
 - Backlog structuré en 6 Épics : Data / ML / Interface / Déploiement / Documentation / Gestion  
-- Sprints hebdomadaires (burndown suivi automatiquement)  
-- Revue et rétrospective à chaque fin de sprint  
+- Sprints hebdomadaires avec **revue et rétrospective** à chaque fin de sprint  
 
 ---
 
@@ -100,7 +108,7 @@ m2_enedis/
 | Documentation technique | `docs/doc_technique.md` |
 | Documentation fonctionnelle | `docs/doc_fonctionnelle.md` |
 | Rapport ML | `docs/rapport_ml.md` |
-| Vidéo démo | 🔗 _[Lien à venir]_ |
+| Matrice de conformité | `docs/SRS_TRACE.md` |
 
 ---
 
@@ -111,7 +119,7 @@ m2_enedis/
 git clone https://github.com/<votre_repo>.git
 cd <votre_repo>
 
-# 2. Créer l’environnement virtuel
+# 2. Créer l'environnement virtuel
 python -m venv venv
 source venv\Scripts\activate  # ou venv/bin/activate sous MacOS
 
