@@ -1,0 +1,34 @@
+# ============================================================
+# TEMPLATE DE COMMIT — GreenTech Solutions
+# ============================================================
+# Syntaxe recommandée :
+#   <type>: <résumé court> (refs #E0X) ou  <type>: <résumé court> (closes #E0X)
+#
+# Types suggérés :
+#   feat     → nouvelle fonctionnalité
+#   fix      → correction de bug
+#   refactor → réorganisation du code
+#   docs     → documentation ou README
+#   style    → changement de style ou indentation
+#   test     → ajout / modification de tests
+#   chore    → maintenance, config, CI/CD
+#
+# Exemple :
+#   feat: ajout du smoke test (closes #E03)
+#   docs: maj README et structure projet (refs #E05)
+# ============================================================
+
+# Résumé court (max 72 caractères)
+# --------------------------------
+# <type>: <résumé> (refs #E0X)
+
+# Détails du changement (optionnel)
+# ---------------------------------
+# Description des modifications importantes, des fichiers impactés ou du contexte technique. Ce champ peut être vide.
+
+# Impact sur le projet (optionnel)
+# --------------------------------
+# - Épic Taiga liée :
+# - Comportement attendu :
+# - Étapes de test :
+# - Todo éventuels :
