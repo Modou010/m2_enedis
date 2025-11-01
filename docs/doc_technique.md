@@ -1,72 +1,258 @@
-# Matrice de traçabilité - Cahier des charges (Greentech Solutions)
+Dernière mise à jour : 2025-11-01  
+Version 1.0 – Novembre 2025  
 
-Ce document relie chaque exigence du cahier des charges officiel au code réel du projet.
-Statut : ⛔ = non implémenté / 🚧 = en cours / ✅ = validé
+# Documentation technique - GreenTech Solutions
 
----
+Projet réalisé dans le cadre du Master 2 SISE – Statistique et Informatique pour la Science des Données  
+Université Lyon 2 - Année universitaire 2025-2026  
 
-## Pack Standard
-
-| ID | Exigence | Description | Implémentation | Fichier / Section | Statut | Preuve |
-|----|-----------|--------------|----------------|-------------------|---------|---------|
-| STD-1 | Pages Streamlit | ≥ 3 pages distinctes (Contexte, Carte, Prédiction) | Multi-page Streamlit (`pages/`) | `app/pages/context.py`, `app/pages/map.py`, `app/pages/predict.py` | 🚧 | captures écran |
-| STD-2 | Images & icônes | Usage d'images, logos et icônes cohérents | Dossier `assets/` Streamlit | `app/assets/*` | ✅ | affichage UI |
-| STD-3 | Carte interactive | Visualisation géographique avec marqueurs et filtres | Plotly Express / Folium / Pydeck | `app/pages/map.py` | 🚧 | capture carte |
-| STD-4 | Page Contexte | Présentation et exploration des données DPE | DataFrame + graphiques descriptifs | `app/pages/context.py` | ✅ | |
-| STD-5 | Filtres dynamiques | Widgets de sélection (select, checkbox, slider, radio) | st.selectbox / st.slider / st.radio | `app/components/filters.py` | ✅ | |
-| STD-6 | ≥4 types de graphes | histogrammes, barres, boxplots, scatter, pie, etc. | Plotly / Altair | `app/pages/context.py`, `app/pages/map.py` | ✅ | |
-| STD-7 | Méthodologie Scrum | Planification et suivi sur Taiga.io | backlog & sprints | `taiga_export.csv` | ✅ | capture écran |
+Application web Streamlit de modélisation et de prédiction de la performance énergétique des logements en France à partir des données publiques ADEME DPE.
 
 ---
 
-## Pack Intermédiaire
+## 1. Objectif du document
 
-| ID | Exigence | Description | Implémentation | Fichier / Section | Statut | Preuve |
-|----|-----------|--------------|----------------|-------------------|---------|---------|
-| INT-1 | Export .png | Sauvegarde des graphiques au format image | Plotly `write_image()` / st.download_button | `app/components/exports.py` | 🚧 | |
-| INT-2 | Export .csv | Export des données filtrées | st.download_button(csv) | `app/components/exports.py` | ✅ | |
-| INT-3 | Page Prédiction | Estimation DPE (classification) + conso (régression) | Pipeline sklearn + Streamlit UI | `app/pages/predict.py` | 🚧 | |
-| INT-4 | Déploiement web | Application hébergée sur Render / Heroku / Shiny | Render (Procfile + runtime.txt) | `Procfile`, `runtime.txt` | 🚧 | lien public |
-| INT-5 | OpenData enrichissement | Ajout variable externe (température, météo...) | API Meteo-France / ADEME | `services/opendata.py` | 🚧 | code API |
-| INT-6 | Documentation complète | Technique (≤2p), Fonctionnelle (≤2p), ML (4–6p) | Markdown dans `/docs` | `docs/*` | 🚧 | |
+Ce document décrit la conception technique du projet GreenTech Solutions : architecture logicielle, environnement, pipeline ML et intégration de l'application web.  
+Il sert de support à la maintenance et à la reproductibilité du projet.  
+L'ensemble du code est open-source et disponible sur GitHub.
 
 ---
 
-## 🟥 Pack Expert
+## 2. Architecture globale du projet
 
-| ID | Exigence | Description | Implémentation | Fichier / Section | Statut | Preuve |
-|----|-----------|--------------|----------------|-------------------|---------|---------|
-| EXP-1 | Actualisation via API | Rafraîchir les données DPE périodiquement | Script API Streamlit / Cron / Requests | `services/opendata.py` | ⛔ | |
-| EXP-2 | Ré-entrainement modèle | UI pour lancer le réapprentissage | joblib + st.button("Réentraîner") | `app/pages/retrain.py` | ⛔ | |
-| EXP-3 | Exposition API modèle | Endpoint REST (FastAPI / Flask) | Microservice séparé / API interne | `api/app.py` | ⛔ | |
-| EXP-4 | Conteneurisation Docker | Dockerfile + build + push image | Dockerfile + CI/CD Render | `docker/Dockerfile` | 🚧 | |
-| EXP-5 | Monitoring app | Logs, santé `/health`, suivi erreurs | logger + st.status / Render logs | `app/app.py` | ⛔ | |
-| EXP-6 | Accessibilité & UX | Contraste AA, focus, tailles ≥16px | CSS custom Streamlit | `.streamlit/config.toml`, `app/styles/theme.css` | ✅ | |
+### 2.1 Schéma général
+
+```mermaid
+graph TD
+    A[Données ADEME – DPE logements existants + neufs] --> B[ETL & Nettoyage (src/etl.py)]
+    B --> C[Feature Engineering (src/features.py)]
+    C --> D[Modélisation ML (src/train.py)]
+    D --> E[Modèles sauvegardés (.pkl)]
+    E --> F[Application Streamlit (streamlit/app.py)]
+    F --> G[Déploiement Render ou Docker]
+```
+
+### 2.2 Structure du dépôt
+
+```
+.
+├── streamlit/
+│   ├── app.py
+│   ├── assets/
+│   │   ├── eco_vision.jpg
+│   │   ├── modou_profile.jpeg
+│   │   └── nico_profile.jpeg
+│   ├── components/
+│   │   └── charts.py
+│   ├── data/
+│   │   ├── donnees_ademe_finales_nettoyees_69_final_pret.csv
+│   │   └── donnees_enedis_finales_69.csv
+│   ├── pages/
+│   │   ├── about.py
+│   │   ├── analysis.py
+│   │   ├── compare.py
+│   │   ├── enedis.py
+│   │   ├── home.py
+│   │   ├── prediction.py
+│   │   └── welcome.py
+│   ├── requirements.txt
+│   └── utils/
+│       ├── data_loader.py
+│       └── model_utils.py
+├── data/
+│   ├── API_Enedis_Project.ipynb
+│   ├── index.html
+│   └── readme.html
+├── docker/Dockerfile
+├── docs/
+│   ├── doc_fonctionnelle.md
+│   ├── doc_technique.md
+│   ├── rapport_ml.md
+│   └── management/
+│       ├── SRS_Trace.md
+│       └── Trace_project.md
+├── notebooks/
+│   ├── classification_regression.ipynb
+│   ├── exploration.ipynb
+│   └── extraction_donnees.ipynb
+├── scripts/smoke_test.sh
+├── src/data/raw/dpe_neufs/dpe_download_neuf.py
+├── dpe_cleaning.py
+├── Procfile
+├── runtime.txt
+├── README.md
+└── update_structure_greentech.sh
+```
+
+> L'application Streamlit est centralisée dans le dossier `streamlit/`.  
+> Les notebooks et scripts de nettoyage sont conservés pour la reproductibilité du pipeline.
 
 ---
 
-## Documentation & livrables
+## 3. Environnement et dépendances
 
-| ID | Exigence | Description | Fichier | Statut | Preuve |
-|----|-----------|--------------|----------|---------|---------|
-| DOC-1 | README principal | Informations complètes, structure claire | `README.md` | ✅ | |
-| DOC-2 | Documentation technique | ≤2 pages, archi + installation + packages | `docs/doc_technique.md` | 🚧 | |
-| DOC-3 | Documentation fonctionnelle | ≤2 pages, description des pages & interactions | `docs/doc_fonctionnelle.md` | 🚧 | |
-| DOC-4 | Rapport ML | 4–6 pages, métriques & interprétation | `docs/rapport_ml.md` | 🚧 | |
-| DOC-5 | Schéma d'architecture | Draw.io export en PNG | `docs/assets/architecture.png` | 🚧 | |
-| DOC-6 | README clair dans /docs | Vue d'ensemble | `docs/README.md` | ✅ | |
+### 3.1. Version Python
+- Python 3.11.x
+- Testé sous macOS (Apple Silicon M1) et Linux (Ubuntu 22.04)
+
+### 3.2. Installation locale
+
+```bash
+conda create -n greentech python=3.11 -y
+conda activate greentech
+pip install -r requirements.txt
+```
+
+### 3.3. Librairies principales
+
+| Catégorie | Librairies | Rôle |
+|------------|-------------|------|
+| Traitement de données | pandas, numpy | Chargement et transformation |
+| Modélisation | scikit-learn, joblib | Entraînement et sauvegarde des modèles |
+| Visualisation | matplotlib, seaborn, plotly | Graphiques et figures ML |
+| Interface web | streamlit | UI et interactions |
+| Déploiement | render, docker | Hébergement et conteneurisation |
+
+### 3.4. Configuration Render
+
+| Fichier | Contenu clé |
+|----------|--------------|
+| Procfile | web: streamlit run streamlit/app.py --server.port=$PORT --server.address=0.0.0.0 |
+| runtime.txt | python-3.11.8 |
+| requirements.txt | Liste exhaustive des dépendances validées |
 
 ---
 
-## Vérification finale
+## 4. Pipeline de données et de modélisation
 
-- [ ] Tous les liens Render fonctionnels  
-- [ ] Dataset final (`data/processed/`) versionné  
-- [ ] Tests de démarrage (`tests/smoke_test.py`) réussis  
-- [ ] Environnements reproductibles (`requirements.txt`, `runtime.txt`)  
-- [ ] README complet et validé par l'équipe
+### 4.1. Flux général
+
+1. Extraction : téléchargement des jeux ADEME DPE (existants + neufs).  
+2. Nettoyage : suppression des doublons, traitement des valeurs manquantes, typage.  
+3. Feature Engineering : normalisation, encodage, sélection des variables pertinentes.  
+4. Entraînement : séparation Train/Test (80/20) + cross-validation.  
+5. Évaluation : calcul Accuracy, F1, RMSE, MAE, R².  
+6. Sauvegarde : export des modèles `.pkl` dans `streamlit/model/`.  
+7. Chargement dans l'app : fonctions `load_model()` et `predict()` dans `streamlit/utils/`.
+
+### 4.2. Modèles utilisés
+
+| Tâche | Algorithme principal | Alternatives testées | Sélection finale |
+|-------|----------------------|----------------------|------------------|
+| Classification DPE | Gradient Boosting Classifier | Logistic Regression, Random Forest | Gradient Boosting |
+| Régression consommation | Random Forest Regressor | Linear Regression, Gradient Boosting Regressor | Random Forest Regressor |
+
+### 4.3. Métriques clés
+
+| Modèle | Jeu | Principales métriques | Commentaire |
+|---------|-----|------------------------|--------------|
+| Classification DPE | Test | Accuracy ≈ 0.84 / F1 macro ≈ 0.80 | Bonne stabilité inter-folds |
+| Régression consommation | Test | RMSE ≈ 32 / R² ≈ 0.73 | Légère sous-estimation des très hautes consommations |
 
 ---
 
-> **Dernière mise à jour** : 30/10/2025  
-> **Responsable QA** : Rina
+## 5. Application Streamlit
+
+### 5.1. Structure fonctionnelle
+
+L'application repose sur Streamlit et permet :
+- la visualisation des données DPE,
+- la prédiction de la classe énergétique et de la consommation,
+- l'export des résultats.
+
+| Élément | Description | Fichier(s) |
+|----------|--------------|-------------|
+| Interface principale | Point d'entrée | streamlit/app.py |
+| Pages Streamlit | Contexte, Prédiction | streamlit/pages/context.py, streamlit/pages/predict.py |
+| Composants graphiques | Graphiques, filtres | streamlit/components/charts.py |
+| Modèles chargés | .pkl | streamlit/model/ |
+| Fonctions internes | predict(), check_health() | streamlit/utils/ |
+
+---
+
+### 5.2. Pages principales
+
+#### Page Contexte
+Exploration visuelle des données avec histogrammes, boxplots, carte interactive (Plotly) et filtres.
+
+#### Page Prédiction
+Saisie utilisateur : surface, année, chauffage, zone climatique, énergie.  
+Affichage des prédictions avec `st.metric()`.
+
+---
+
+## 6. Déploiement Render et Docker
+
+### 6.1. Render
+Déploiement via Render (Free Tier).  
+Procfile et runtime configurés pour Streamlit.
+
+### 6.2. Docker
+Image légère basée sur `python:3.11-slim` :
+
+```dockerfile
+FROM python:3.11-slim
+WORKDIR /app
+COPY . /app
+RUN pip install -r requirements.txt
+CMD ["streamlit", "run", "streamlit/app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+```
+
+---
+
+## 7. Maintenance et évolutions
+
+| Script | Rôle |
+|--------|------|
+| src/train.py | Réentraîner les modèles |
+| scripts/smoke_test.sh | Vérifier le démarrage Streamlit |
+| src/evaluate.py | Calcul des métriques |
+
+Évolutions prévues :
+- CI/CD via GitHub Actions  
+- API FastAPI pour les prédictions  
+- Tracking des métriques avec MLflow
+
+---
+
+## 8. Annexes et traçabilité
+
+### 8.1. Matrice projet
+
+| Épopée | Livrable | Statut |
+|---------|-----------|--------|
+| E01 – Données | Dataset propre | ✅ |
+| E02 – Modèles ML | .pkl + rapport | ✅ |
+| E03 – App Streamlit | UI + exports | ✅ |
+| E04 – Déploiement | URL Render + Docker | 🚧 |
+| E05 – Docs | Technique / Fonctionnelle / ML | 🚧 |
+| E06 – Gestion projet | Rôles + suivi | ✅ |
+
+### 8.2 Leçons apprises
+
+| Points positifs | Difficultés | Améliorations |
+|------------------|--------------|----------------|
+| Bonne coordination | Fusion Git | Automatiser merges |
+| Interface stable | Render lent | Optimiser dépendances |
+| Pipeline reproductible | Variance modèles | MLflow |
+
+---
+
+## 9. Références
+
+- ADEME - Données publiques DPE : https://data.ademe.fr  
+- Streamlit : https://docs.streamlit.io  
+- Scikit-learn : https://scikit-learn.org/stable/  
+- Render : https://render.com/docs
+
+---
+
+## Annexes liées
+
+- [Annexe A - Matrice de traçabilité du sujet](management/SRS_Trace.md)  
+- [Annexe B - Matrice de traçabilité projet](management/Trace_project.md)
+
+---
+
+Auteurs : Modou, Nico, Rina  
+Version : 1.0 – Novembre 2025
