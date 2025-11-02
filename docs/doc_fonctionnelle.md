@@ -108,15 +108,13 @@ L'application comprend trois pages principales accessibles via la barre latéral
 
 ### Page Accueil
 ![capture_accueil](https://github.com/Modou010/m2_enedis/blob/Rina/docs/assets/img1.png)  
-*(à insérer : capture d'écran illustrant les visualisations principales de la page Contexte)*
-
+### Page Analyse 
+![capture_analyse1](https://github.com/Modou010/m2_enedis/blob/Rina/docs/assets/img2.png) 
+### Page Analyse(carte)
+![capture_analyse2](https://github.com/Modou010/m2_enedis/blob/Rina/docs/assets/img4.png) 
 ### Page Prédiction
-![capture_prediction](assets/capture_prediction.png)  
-*(à insérer : capture d'écran montrant le formulaire de saisie et la zone de résultat)*
+![capture_prediction](https://github.com/Modou010/m2_enedis/blob/Rina/docs/assets/img3.png)  
 
-### Page Analyse / Export
-![capture_export](assets/capture_export.png)  
-*(à insérer : capture d'écran avec les boutons d'exportation et un graphique sauvegardé)*
 
 ---
 
