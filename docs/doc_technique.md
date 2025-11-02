@@ -223,53 +223,32 @@ Affichage des prédictions avec `st.metric()`.
 Déploiement via Render (Free Tier).  
 Procfile et runtime configurés pour Streamlit.
 
-### 6.2. Docker
-Image légère basée sur `python:3.11-slim` :
+l'application est deployée sur render et accessible à ce lien : https://greentech-streamlit.onrender.com
+l'application ne charge pas les données car les fichiers de données et les différents sont trop lourds pour être importés sur github (resolution à venir).
 
-```dockerfile
-FROM python:3.11-slim
-WORKDIR /app
-COPY . /app
-RUN pip install -r requirements.txt
-CMD ["streamlit", "run", "streamlit/app.py", "--server.port=8501", "--server.address=0.0.0.0"]
-```
 
 ---
 
-## 7. Maintenance et évolutions
+## 7. Annexes et traçabilité
 
-| Script | Rôle |
-|--------|------|
-| src/train.py | Réentraîner les modèles |
-| scripts/smoke_test.sh | Vérifier le démarrage Streamlit |
-| src/evaluate.py | Calcul des métriques |
-
-Évolutions prévues :
-- CI/CD via GitHub Actions  
-- API FastAPI pour les prédictions  
-- Tracking des métriques avec MLflow
-
----
-
-## 8. Annexes et traçabilité
-
-### 8.1. Matrice projet
+### 7.1. Matrice projet
 
 | Épopée | Livrable | Statut |
 |---------|-----------|--------|
 | E01 – Données | Dataset propre | ✅ |
 | E02 – Modèles ML | .pkl + rapport | ✅ |
 | E03 – App Streamlit | UI + exports | ✅ |
-| E04 – Déploiement | URL Render + Docker | 🚧 |
-| E05 – Docs | Technique / Fonctionnelle / ML | 🚧 |
+| E04 – Déploiement | URL Render  | 🚧 |
+| E05 – Docs | Technique / Fonctionnelle / ML | ✅ |
 | E06 – Gestion projet | Rôles + suivi | ✅ |
+| E07 – Dockersition | Docker | ✅ |
 
 ### 8.2 Leçons apprises
 
 | Points positifs | Difficultés | Améliorations |
 |------------------|--------------|----------------|
 | Bonne coordination | Fusion Git | Automatiser merges |
-| Interface stable | Render lent | Optimiser dépendances |
+| Interface stable | fichiers lourds difficiles à gérer | contourner le stockages, utiliser une base de données|
 | Pipeline reproductible | Variance modèles | MLflow |
 
 ---
