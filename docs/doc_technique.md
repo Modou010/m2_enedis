@@ -22,66 +22,90 @@ L'ensemble du code est open-source et disponible sur GitHub.
 
 ### 2.1 Schéma général
 
-```mermaid
-graph TD
-    A[Données ADEME – DPE logements existants + neufs] --> B[ETL & Nettoyage (src/etl.py)]
-    B --> C[Feature Engineering (src/features.py)]
-    C --> D[Modélisation ML (src/train.py)]
-    D --> E[Modèles sauvegardés (.pkl)]
-    E --> F[Application Streamlit (streamlit/app.py)]
-    F --> G[Déploiement Render ou Docker]
-```
+<p align="center"><img src="schema_archicture_projet.jpg" alt="Schéma d’architecture du projet" width="80%"></p>
+
 
 ### 2.2 Structure du dépôt
 
 ```
 .
-├── streamlit/
-│   ├── app.py
-│   ├── assets/
-│   │   ├── eco_vision.jpg
-│   │   ├── modou_profile.jpeg
-│   │   └── nico_profile.jpeg
-│   ├── components/
-│   │   └── charts.py
-│   ├── data/
-│   │   ├── donnees_ademe_finales_nettoyees_69_final_pret.csv
-│   │   └── donnees_enedis_finales_69.csv
-│   ├── pages/
-│   │   ├── about.py
-│   │   ├── analysis.py
-│   │   ├── compare.py
-│   │   ├── enedis.py
-│   │   ├── home.py
-│   │   ├── prediction.py
-│   │   └── welcome.py
-│   ├── requirements.txt
-│   └── utils/
-│       ├── data_loader.py
-│       └── model_utils.py
-├── data/
-│   ├── API_Enedis_Project.ipynb
-│   ├── index.html
-│   └── readme.html
-├── docker/Dockerfile
-├── docs/
-│   ├── doc_fonctionnelle.md
-│   ├── doc_technique.md
-│   ├── rapport_ml.md
-│   └── management/
-│       ├── SRS_Trace.md
-│       └── Trace_project.md
-├── notebooks/
-│   ├── classification_regression.ipynb
-│   ├── exploration.ipynb
-│   └── extraction_donnees.ipynb
-├── scripts/smoke_test.sh
-├── src/data/raw/dpe_neufs/dpe_download_neuf.py
-├── dpe_cleaning.py
-├── Procfile
-├── runtime.txt
-├── README.md
-└── update_structure_greentech.sh
+greentech-solutions/
+├── Data/                                               # Données provenant des Apis
+├   ├──data_ademe_existants_69.csv
+│   ├──data_ademe_existants_69.csv
+│   ├──donnees_enedis_69_.csv  
+├── Docs/                                               # documentation
+├   ├──assets/
+│   ├──management/
+├   ├──doc_fontctionnelle.md
+│   ├──doc_technique.md
+│   ├──rapport_ml.md
+│   ├──presentation_projet.md                           
+├── Notebooks/
+├   ├──1_extraction_preparation_donnees.ipynb
+│   ├──2_exploration_donnees.ipynb
+│   ├──3_classification_regression.ipynb
+├── streamlit/                          # dossier application  
+|   ├── app.py                          # Application Streamlit principale
+|   ├── pages/                          # Pages Streamlit
+|   │   ├── welcome.py
+|   │   ├── home.py
+|   │   ├── analysis.py
+|   │   ├── enedis.py
+|   │   ├── prediction.py
+|   │   ├── compare.py
+|   │   ├── about.py
+|   │   ├── refresh_data.py            
+|   │   └── retrain_models.py          
+|   ├── utils/                         # Modules utilitaires
+|   │   ├── data_loader.py
+|   │   ├── model_utils.py
+|   │   ├── data_refresher.py          
+|   │   └── model_trainer.py           
+|   ├── api/                           # API FastAPI
+|   │   └── main.py                    
+|   ├── models/                        # Modèles ML sauvegardés
+|   │   ├── classification_model.pkl
+|   │   ├── regression_model.pkl
+|   │   └── metrics.json
+|   ├── data/                          # Données
+|   │   ├── donnees_ademe_finales_nettoyees_69_final_pret.csv
+|   │   ├──donnees_enedis_69_finales.csv
+|   │   ├── adresses-69.csv
+|   │   └── metadata.json
+|   ├── app.py                          # Application Streamlit principale
+|   ├── pages/                          # Pages Streamlit
+|   │   ├── welcome.py
+|   │   ├── home.py
+|   │   ├── analysis.py
+|   │   ├── enedis.py
+|   │   ├── prediction.py
+|   │   ├── compare.py
+|   │   ├── about.py
+|   │   ├── refresh_data.py            
+|   │   └── retrain_models.py          
+|   ├── utils/                         # Modules utilitaires
+|   │   ├── data_loader.py
+|   │   ├── model_utils.py
+|   │   ├── data_refresher.py          
+|   │   └── model_trainer.py           
+|   ├── api/                           # API FastAPI
+|   │   └── main.py                    
+|   ├── models/                        # Modèles ML sauvegardés
+|   │   ├── classification_model.pkl
+|   │   ├── regression_model.pkl
+|   │   └── metrics.json
+|   ├── data/                          # Données application
+|   │   ├── donnees_ademe_finales_nettoyees_69_final_pret.csv
+|   │   ├──donnees_enedis_69_finales.csv
+|   │   ├── adresses-69.csv
+|   │   └── metadata.json
+|   ├── Dockerfile                     
+|   ├── docker-compose.yml             
+|   ├──docker-entrypoint.sh           
+|   ├── requirements.txt
+|   ├── .dockerignore                  
+└── ────README.md
 ```
 
 > L'application Streamlit est centralisée dans le dossier `streamlit/`.  
@@ -93,14 +117,25 @@ graph TD
 
 ### 3.1. Version Python
 - Python 3.11.x
-- Testé sous macOS (Apple Silicon M1) et Linux (Ubuntu 22.04)
 
 ### 3.2. Installation locale
-
+prérequis : avoir docker installé et avoir les images greentech-streamlit.tar ; greentch-api.tar
 ```bash
-conda create -n greentech python=3.11 -y
-conda activate greentech
-pip install -r requirements.txt
+# charger l'image de l'application
+docker load -i greentech-streamlit.tar
+# charger l'image de l'api
+docker load -i greentech-api.tar
+# verifier que les images sont chargés
+docker images
+# lancer l'application
+docker-compose up -d
+
+# acceder à l'application
+# ** frontend streamlit : http://localhost/8501
+# ** API : http://localhost/8000
+
+# arreter l'application
+docker-compose down
 ```
 
 ### 3.3. Librairies principales
