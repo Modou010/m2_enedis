@@ -1,10 +1,16 @@
-# 💡 GreenTech Solutions
+# 🌿 GreenTech Solutions - Dashboard Énergétique
 
+Application Streamlit d'analyse des données énergétiques ADEME et Enedis.
 > _Modélisation et visualisation des performances énergétiques des logements en France_
 >
 > Projet réalisé dans le cadre du Master 2 **SISE – Statistique et Informatique pour la Science des donnéEs (Lyon 2)**  
 > Année universitaire 2025-2026
-
+> 
+[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-red.svg)](https://streamlit.io/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-green.svg)](https://fastapi.tiangolo.com/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://www.docker.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 ---
 
 ## Objectif du projet
