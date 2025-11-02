@@ -299,32 +299,6 @@ metrics = response.json()
 print(f"Accuracy: {metrics['classification']['accuracy']}")
 print(f"R² Score: {metrics['regression']['r2_score']}")
 ```
-
-## 🐳 Gestion Docker
-
-### Construire l'image
-```bash
-docker build -t greentech-solutions .
-```
-
-### Lancer uniquement Streamlit
-```bash
-docker run -p 8501:8501 \
-  -v $(pwd)/data:/app/data \
-  -v $(pwd)/models:/app/models \
-  -e SERVICE_MODE=streamlit \
-  greentech-solutions
-```
-
-### Lancer uniquement l'API
-```bash
-docker run -p 8000:8000 \
-  -v $(pwd)/data:/app/data \
-  -v $(pwd)/models:/app/models \
-  -e SERVICE_MODE=api \
-  greentech-solutions
-```
-
 ## 📊 Modèles de Machine Learning
 
 ### Modèle de Classification
