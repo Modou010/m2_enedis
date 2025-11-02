@@ -243,7 +243,7 @@ l'application ne charge pas les données car les fichiers de données et les dif
 | E06 – Gestion projet | Rôles + suivi | ✅ |
 | E07 – Dockersition | Docker | ✅ |
 
-### 8.2 Leçons apprises
+### 7.2 Leçons apprises
 
 | Points positifs | Difficultés | Améliorations |
 |------------------|--------------|----------------|
@@ -253,7 +253,7 @@ l'application ne charge pas les données car les fichiers de données et les dif
 
 ---
 
-## 9. Références
+## 8. Références
 
 - ADEME - Données publiques DPE : https://data.ademe.fr  
 - Streamlit : https://docs.streamlit.io  
