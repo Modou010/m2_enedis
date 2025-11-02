@@ -146,6 +146,7 @@ docker-compose down
 | Modélisation | scikit-learn, joblib | Entraînement et sauvegarde des modèles |
 | Visualisation | matplotlib, seaborn, plotly | Graphiques et figures ML |
 | Interface web | streamlit | UI et interactions |
+| API | fastAPI, Uvicorn | API et endpoints |
 | Déploiement | render, docker | Hébergement et conteneurisation |
 
 ### 3.4. Configuration Render
