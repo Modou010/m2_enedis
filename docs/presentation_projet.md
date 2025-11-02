@@ -84,19 +84,19 @@ Le déploiement en ligne et la dockerisation sont en cours, mais des **captures 
 La présentation écrite sera accompagnée de plusieurs **captures d'écran commentées** :  
 
 ### 🔸 Suivi de projet  
-![capture_taiga](docs/assets/exemple_taiga.png)  
+![gestion de projet taiga](https://github.com/Modou010/m2_enedis/blob/main/docs/assets/exemple_taiga.png)  
 > *Exemple de tableau de bord Taiga : user stories, tâches, et progression.*  
 
 ### 🔸 Collaboration technique  
-![capture_github](docs/assets/sshot_github.png)  
+![page github](https://github.com/Modou010/m2_enedis/blob/main/docs/assets/sshot_github.png)  
 > *Structure du dépôt GitHub et historique des commits.*  
 
 ### 🔸 Interface Streamlit  
-![capture_streamlit](path/to/app_streamlit.png)  
+![capture_streamlit](https://github.com/Modou010/m2_enedis/blob/main/docs/assets/img1.png)  
 > *Aperçu de la page principale de l'application Streamlit (carte et graphique).*  
 
 ### 🔸 Pipeline Python  
-![capture_pipeline](path/to/pipeline_diagram.png)  
+![capture_pipeline](https://github.com/Modou010/m2_enedis/blob/main/docs/assets/schema_archicture_projet.jpg)  
 > *Schéma global du pipeline : ETL, features, training, déploiement.*  
 
 Ces illustrations permettront de montrer concrètement le **niveau d'avancement**, la **méthodologie collaborative** et la **rigueur technique** du projet.
@@ -114,3 +114,4 @@ Les perspectives incluent :
 - et la **mise en place d'un scénario automatisé de mise à jour des modèles**.
 
 L'approche inclusive, la gestion agile et la rigueur scientifique ont permis de transformer un projet académique en un véritable prototype fonctionnel, ouvrant la voie à des développements plus ambitieux.
+
