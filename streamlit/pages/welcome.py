@@ -46,7 +46,7 @@ def show():
                 margin-bottom: 2rem;
             ">
                 <h1 style="color:white; font-size:52px; margin-bottom: 1rem;">
-                    🌱 Bienvenue sur GreenTech Solutions Rhône
+                    🌿 Bienvenue sur GreenTech Solutions Rhône
                 </h1>
                 <p style="color:white; font-size:22px; opacity: 0.95;">
                     Analyse et comparaison énergétique simplifiée pour vos logements

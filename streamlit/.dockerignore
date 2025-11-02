@@ -1,0 +1,58 @@
+# Environnements virtuels
+venv/
+env/
+ENV/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# IDE et éditeurs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose*.yml
+
+# Documentation
+README.md
+*.md
+docs/
+
+# Tests
+tests/
+test_*.py
+*_test.py
+.pytest_cache/
+.coverage
+
+# Logs et caches
+*.log
+logs/
+.cache/
+*.tmp
+
+# Données sensibles (à adapter selon vos besoins)
+.env
+.env.local
+*.key
+*.pem
+secrets/
+
+# Fichiers temporaires
+tmp/
+temp/
+*.bak

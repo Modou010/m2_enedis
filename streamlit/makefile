@@ -1,69 +1,79 @@
-.PHONY: help install run-streamlit run-api run-both test-api docker-build docker-up docker-down docker-logs clean
+.PHONY: help build up down restart logs clean streamlit api stop-streamlit stop-api
 
-help:
-	@echo "🌱 GreenTech Solutions - Commandes disponibles:"
-	@echo ""
-	@echo "  make install          - Installer les dépendances Python"
-	@echo "  make run-streamlit    - Lancer l'application Streamlit"
-	@echo "  make run-api          - Lancer l'API FastAPI"
-	@echo "  make run-both         - Lancer Streamlit et API en parallèle"
-	@echo "  make test-api         - Tester l'API"
-	@echo ""
-	@echo "  make docker-build     - Construire l'image Docker"
-	@echo "  make docker-up        - Démarrer les conteneurs Docker"
-	@echo "  make docker-down      - Arrêter les conteneurs Docker"
-	@echo "  make docker-logs      - Voir les logs Docker"
-	@echo ""
-	@echo "  make clean            - Nettoyer les fichiers temporaires"
+# Couleurs pour l'affichage
+GREEN=\033[0;32m
+YELLOW=\033[1;33m
+NC=\033[0m # No Color
 
-install:
-	@echo "📦 Installation des dépendances..."
-	pip install -r requirements.txt
-	@echo "✅ Installation terminée!"
+help: ## Afficher l'aide
+	@echo "$(GREEN)═══════════════════════════════════════════════════$(NC)"
+	@echo "$(GREEN)   GreenTech Solutions - Commandes Docker$(NC)"
+	@echo "$(GREEN)═══════════════════════════════════════════════════$(NC)"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "$(YELLOW)%-20s$(NC) %s\n", $$1, $$2}'
 
-run-streamlit:
-	@echo "🚀 Lancement de Streamlit..."
-	streamlit run app.py
-
-run-api:
-	@echo "🔌 Lancement de l'API FastAPI..."
-	uvicorn api.main:app --reload --host 0.0.0.0 --port 8000
-
-run-both:
-	@echo "🚀 Lancement de Streamlit et de l'API..."
-	@echo "⚠️  Utiliser Ctrl+C pour arrêter"
-	@make -j2 run-streamlit run-api
-
-test-api:
-	@echo "🧪 Test de l'API..."
-	python test_api.py
-
-docker-build:
-	@echo "🐳 Construction de l'image Docker..."
+build: ## Construire les images Docker
+	@echo "$(GREEN)🔨 Construction des images Docker...$(NC)"
 	docker-compose build
-	@echo "✅ Image construite!"
 
-docker-up:
-	@echo "🐳 Démarrage des conteneurs..."
+up: ## Démarrer tous les services
+	@echo "$(GREEN)🚀 Démarrage de tous les services...$(NC)"
 	docker-compose up -d
-	@echo "✅ Conteneurs démarrés!"
-	@echo "📊 Streamlit: http://localhost:8501"
-	@echo "🔌 API: http://localhost:8000"
-	@echo "📖 Docs API: http://localhost:8000/docs"
+	@echo "$(GREEN)✅ Services démarrés !$(NC)"
+	@echo "$(YELLOW)📊 Streamlit: http://localhost:8501$(NC)"
+	@echo "$(YELLOW)🔌 API: http://localhost:8000$(NC)"
 
-docker-down:
-	@echo "🛑 Arrêt des conteneurs..."
+down: ## Arrêter tous les services
+	@echo "$(GREEN)🛑 Arrêt de tous les services...$(NC)"
 	docker-compose down
-	@echo "✅ Conteneurs arrêtés!"
 
-docker-logs:
-	@echo "📋 Logs des conteneurs..."
+restart: down up ## Redémarrer tous les services
+
+streamlit: ## Démarrer uniquement Streamlit
+	@echo "$(GREEN)📊 Démarrage de Streamlit...$(NC)"
+	docker-compose up -d streamlit
+	@echo "$(GREEN)✅ Streamlit démarré sur http://localhost:8501$(NC)"
+
+api: ## Démarrer uniquement l'API
+	@echo "$(GREEN)🔌 Démarrage de l'API...$(NC)"
+	docker-compose up -d api
+	@echo "$(GREEN)✅ API démarrée sur http://localhost:8000$(NC)"
+
+stop-streamlit: ## Arrêter Streamlit
+	@echo "$(GREEN)🛑 Arrêt de Streamlit...$(NC)"
+	docker-compose stop streamlit
+
+stop-api: ## Arrêter l'API
+	@echo "$(GREEN)🛑 Arrêt de l'API...$(NC)"
+	docker-compose stop api
+
+logs: ## Voir les logs de tous les services
 	docker-compose logs -f
 
-clean:
-	@echo "🧹 Nettoyage..."
-	find . -type d -name "__pycache__" -exec rm -rf {} +
-	find . -type f -name "*.pyc" -delete
-	find . -type f -name "*.pyo" -delete
-	find . -type d -name ".pytest_cache" -exec rm -rf {} +
-	@echo "✅ Nettoyage terminé!"
+logs-streamlit: ## Voir les logs de Streamlit
+	docker-compose logs -f streamlit
+
+logs-api: ## Voir les logs de l'API
+	docker-compose logs -f api
+
+ps: ## Voir l'état des services
+	@echo "$(GREEN)📊 État des services:$(NC)"
+	@docker-compose ps
+
+shell-streamlit: ## Ouvrir un shell dans le conteneur Streamlit
+	docker-compose exec streamlit /bin/bash
+
+shell-api: ## Ouvrir un shell dans le conteneur API
+	docker-compose exec api /bin/bash
+
+clean: ## Nettoyer les conteneurs, images et volumes
+	@echo "$(YELLOW)⚠️  Nettoyage complet (conteneurs, images, volumes)...$(NC)"
+	docker-compose down -v
+	docker system prune -f
+	@echo "$(GREEN)✅ Nettoyage terminé$(NC)"
+
+rebuild: clean build up ## Reconstruire et redémarrer tout
+
+health: ## Vérifier la santé des services
+	@echo "$(GREEN)🏥 Vérification de la santé des services:$(NC)"
+	@docker inspect --format='{{.State.Health.Status}}' greentech-streamlit 2>/dev/null || echo "Streamlit: non démarré"
+	@docker inspect --format='{{.State.Health.Status}}' greentech-api 2>/dev/null || echo "API: non démarré"

@@ -58,7 +58,7 @@ def show():
                 with metric_col1:
                     st.metric("R² Score", f"{regress['r2_score']:.3f}")
                 with metric_col2:
-                    st.metric("MAE", f"{regress['mae']:.2f} €")
+                    st.metric("MAE", f"{regress['mae']:.2f} ")
                 
                 st.info(f" Entraîné le : {regress.get('trained_at', 'N/A')[:10]}")
                 st.caption(f"Échantillons d'entraînement : {regress.get('train_samples', 'N/A'):,}")
@@ -305,9 +305,9 @@ def show():
                 with metric_col1:
                     st.metric("R² Score", f"{regress_metrics['r2_score']:.3f}")
                 with metric_col2:
-                    st.metric("MAE", f"{regress_metrics['mae']:.0f} €")
+                    st.metric("MAE", f"{regress_metrics['mae']:.0f} ")
                 with metric_col3:
-                    st.metric("RMSE", f"{regress_metrics['rmse']:.0f} €")
+                    st.metric("RMSE", f"{regress_metrics['rmse']:.0f} ")
                 
                 st.caption(f" Entraîné sur {regress_metrics['train_samples']:,} échantillons")
                 st.caption(f" Testé sur {regress_metrics['test_samples']:,} échantillons")

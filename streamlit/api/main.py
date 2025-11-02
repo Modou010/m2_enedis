@@ -308,10 +308,10 @@ def perform_retraining():
         # Recharger les modèles
         classifier, regressor = trainer.load_models()
         
-        print(f"✅ Réentraînement terminé: Classification Accuracy={metrics['classification']['accuracy']:.3f}, Regression R²={metrics['regression']['r2_score']:.3f}")
+        print(f" Réentraînement terminé: Classification Accuracy={metrics['classification']['accuracy']:.3f}, Regression R²={metrics['regression']['r2_score']:.3f}")
     
     except Exception as e:
-        print(f"❌ Erreur lors du réentraînement: {e}")
+        print(f" Erreur lors du réentraînement: {e}")
 
 @app.get("/models/info")
 def get_models_info():

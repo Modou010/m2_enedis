@@ -3,14 +3,19 @@ version: "3.8"
 services:
   # Service Streamlit (Interface utilisateur)
   streamlit:
-    image: streamlit-project-streamlit:latest # Utilise l'image chargée
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: greentech-streamlit
     ports:
-      - "8502:8501"
+      - "8501:8501"
     volumes:
       - ./data:/app/data
       - ./models:/app/models
       - ./logs:/app/logs
+      # Volume pour le code en développement (commenté en production)
+      # - ./pages:/app/pages
+      # - ./app.py:/app/app.py
     environment:
       - SERVICE_MODE=streamlit
       - PYTHONUNBUFFERED=1
@@ -28,7 +33,9 @@ services:
 
   # Service FastAPI (API) - Optionnel
   api:
-    image: streamlit-project-api:latest # Utilise l'image chargée
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: greentech-api
     ports:
       - "8000:8000"
