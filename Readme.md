@@ -336,8 +336,8 @@ print(f"R² Score: {metrics['regression']['r2_score']}")
 - `conso_refroidissement_ef`
 - `type_energie_recodee`
 ---
-## Annexes liées
-
+## Gestion du projet et suivi des tickets de tâches
+Réalisé avec Taiga. A consulté :
 - [Annexe A - Matrice de traçabilité du sujet](https://github.com/Modou010/m2_enedis/blob/main/docs/management/SRS_Trace.md)  
 - [Annexe B - Matrice de traçabilité projet](https://github.com/Modou010/m2_enedis/blob/main/docs/management/Trace_project.md)
 ---
