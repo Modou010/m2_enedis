@@ -21,3 +21,4 @@ env/
 .vscode/
 .idea/
 *.swp
+env_enedis/
