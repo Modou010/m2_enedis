@@ -273,7 +273,7 @@ Enfin, ce projet ouvre des perspectives intéressantes pour la suite : élargir 
 ---
 
 ## Annexes
-- **Notebook 1 :** [Extraction et préparation des données](./notebooks/1_extraction_prepartaion_donnees.ipynb)
+- **Notebook 1 :** [Extraction et préparation des données](https://github.com/Modou010/m2_enedis/blob/main/Notebooks/1_extraction_prepartaion_donnees.ipynb)
 - **Notebook 2 :** [Exploration et analyse](./notebooks/2_exploration_donnees.ipynb)
 - **Notebook 3 :** [Modélisation ML](./notebooks/3_classification_regression.ipynb)
 - **README complet :** [GreenTech Solutions](./readme.md)
