@@ -13,21 +13,54 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.model_trainer import ModelTrainer
 from utils.data_refresher import DataRefresher
 
-# Initialiser FastAPI
+
+# Initialiser FastAPI UNE SEULE FOIS
 app = FastAPI(
     title="GreenTech Solutions - API DPE",
     description="API pour prédictions énergétiques et gestion des modèles ML",
     version="1.0.0"
 )
 
-# Configuration CORS
+# Configuration CORS UNE SEULE FOIS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # En production : ["https://greentech-streamlit.onrender.com"]
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# === ENDPOINTS DE BASE (déjà bien placés) ===
+
+@app.get("/")
+def read_root():
+    return {
+        "message": "GreenTech Solutions - API DPE",
+        "version": "1.0.0",
+        "status": "ok",
+        "docs": "/docs",
+        "endpoints": {
+            "health": "/health",
+            "predict": "/predict",
+            "predict_batch": "/predict/batch",
+            "metrics": "/models/metrics",
+            "refresh_data": "/data/refresh",
+            "retrain": "/models/retrain"
+        }
+    }
+
+@app.get("/health")
+def health_check():
+    """Vérifier l'état de l'API"""
+    models_loaded = classifier is not None and regressor is not None
+    
+    return {
+        "status": "healthy" if models_loaded else "degraded",
+        "models_loaded": models_loaded,
+        "timestamp": datetime.now().isoformat()
+    }
+
+
 
 # === SCHEMAS PYDANTIC ===
 
