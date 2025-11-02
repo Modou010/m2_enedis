@@ -108,6 +108,8 @@ L'application comprend trois pages principales accessibles via la barre latéral
 
 ### Page Accueil
 ![capture_accueil](https://github.com/Modou010/m2_enedis/blob/Rina/docs/assets/img1.png)  
+### Page Contexte
+![capture_contexte](https://github.com/Modou010/m2_enedis/blob/Rina/docs/assets/img5.png)  
 ### Page Analyse 
 ![capture_analyse1](https://github.com/Modou010/m2_enedis/blob/Rina/docs/assets/img2.png) 
 ### Page Analyse(carte)
