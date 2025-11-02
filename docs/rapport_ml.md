@@ -1,6 +1,6 @@
 # Rapport Machine Learning - GreenTech Solutions
 
-Projet réalisé dans le cadre du Master 2 SISE - Statistique et Informatique pour la Science des Données  
+Projet réalisé dans le cadre du Master 2 SISE - Statistique et Informatique pour la Science des DonnéEs  
 Université Lyon 2 - Année universitaire 2025-2026  
 
 ---
@@ -16,6 +16,9 @@ Les données utilisées proviennent des jeux ADEME (Diagnostics de Performance �
 ---
 
 ## 2. Données et préparation
+
+Pour la classification, les résultats complets sur l'ensemble ADEME (69) sont documentés (Accuracy 0.945, F1-macro 0.922). Pour l'intégration dans l'application Streamlit, une version allégée du modèle est utilisée afin de réduire la taille du fichier et le temps de chargement. Le modèle complet est disponible sur demande.
+Pour la régression, une version allégée entraînée sur un échantillon représentatif est utilisée dans l'application (compression Joblib). L'entraînement complet sur l'intégralité des données est planifié et sera ajouté en version ultérieure.
 
 ### 2.1 Sources
 - **ADEME** : `donnees_ademe_finales_nettoyees_69_final_pret.csv`
