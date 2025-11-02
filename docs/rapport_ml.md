@@ -8,20 +8,20 @@ Université Lyon 2 - Année universitaire 2025-2026
 ## 1. Introduction
 
 ### 1.1 Contexte et motivation
-Face à la crise énergétique et à la nécessité de réduire les émissions de CO₂, les **Diagnostics de Performance Énergétique (DPE)** sont devenus un enjeu central des politiques publiques. Ils permettent d’évaluer la consommation énergétique et les émissions des logements. Cependant, ces diagnostics sont souvent dispersés, hétérogènes et peu exploitables directement pour l’analyse à grande échelle.
+Face à la crise énergétique et à la nécessité de réduire les émissions de CO₂, les **Diagnostics de Performance Énergétique (DPE)** sont devenus un enjeu central des politiques publiques. Ils permettent d'évaluer la consommation énergétique et les émissions des logements. Cependant, ces diagnostics sont souvent dispersés, hétérogènes et peu exploitables directement pour l'analyse à grande échelle.
 
-Le projet **GreenTech Solutions** vise à proposer une approche complète d’analyse et de prédiction des performances énergétiques à partir des données publiques des DPE et de la consommation réelle Enedis, concentrée sur la région **Rhône-Alpes**.
+Le projet **GreenTech Solutions** vise à proposer une approche complète d'analyse et de prédiction des performances énergétiques à partir des données publiques des DPE et de la consommation réelle Enedis, concentrée sur la région **Rhône-Alpes**.
 
 ### 1.2 Objectifs
 - Analyser les performances énergétiques des logements existants et neufs.
-- Créer un modèle de **classification** pour prédire l’étiquette DPE (A–G).
+- Créer un modèle de **classification** pour prédire l'étiquette DPE (A–G).
 - Créer un modèle de **régression** pour estimer le **coût énergétique annuel (€)**.
 - Développer une **application web** intégrant visualisation, prédiction et automatisation.
 
 ### 1.3 Enjeux
-- Valoriser les données ouvertes de l’ADEME et d’Enedis.
+- Valoriser les données ouvertes de l'ADEME et d'Enedis.
 - Concevoir des modèles robustes, interprétables et généralisables.
-- Offrir un outil pratique d’aide à la rénovation et à la décision.
+- Offrir un outil pratique d'aide à la rénovation et à la décision.
 
 ---
 
@@ -52,7 +52,7 @@ data_enedis_69.csv
 Création de variables dérivées :
 - `conso_par_m2 = conso_totale / surface`
 - `age_batiment = annee_actuelle - annee_construction`
-- `type_energie_recodee` (regroupement d’énergies)
+- `type_energie_recodee` (regroupement d'énergies)
 
 Encodage : Label Encoding pour `type_batiment` et `type_energie_recodee`.
 
@@ -82,7 +82,7 @@ type_batiment, conso_ecs_ef, conso_refroidissement_ef, type_energie_recodee
 - Histogramme des étiquettes DPE.
 - Heatmap de corrélation.
 - Carte interactive par code postal.
-- Boxplots de consommation par type d’énergie.
+- Boxplots de consommation par type d'énergie.
 
 ---
 
@@ -120,7 +120,7 @@ min_samples_leaf=2
 
 **Top Features :** `conso_5_usages_par_m2_ef`, `surface_habitable_logement`, `cout_ecs`.
 
-**Matrice de confusion (résumé)** : diagonale dominante, très peu d’erreurs inter-classes.
+**Matrice de confusion (résumé)** : diagonale dominante, très peu d'erreurs inter-classes.
 
 ### 4.4 Modèle de régression
 **Algorithme :** RandomForestRegressor
@@ -152,20 +152,20 @@ metrics.json
 ## 5. Interprétation et discussion
 
 ### 5.1 Importance des variables
-Les consommations totales et spécifiques par m² expliquent la majorité de la variance. Le type d’énergie et la surface complètent la hiérarchie.
+Les consommations totales et spécifiques par m² expliquent la majorité de la variance. Le type d'énergie et la surface complètent la hiérarchie.
 
 ### 5.2 Robustesse
-Les modèles résistent bien au surapprentissage grâce à la diversité des échantillons et à la validation croisée. Cependant, la généralisation hors Rhône-Alpes n’a pas été testée.
+Les modèles résistent bien au surapprentissage grâce à la diversité des échantillons et à la validation croisée. Cependant, la généralisation hors Rhône-Alpes n'a pas été testée.
 
 ### 5.3 Limites
 - Données ADEME partiellement incohérentes (formats, doublons).
 - Absence de variables contextuelles (revenu, isolation, altitude).
 - DPE neufs sous-représentés.
 
-### 5.4 Pistes d’amélioration
+### 5.4 Pistes d'amélioration
 - Ajout de modèles explainables (XGBoost + SHAP).
-- Intégration d’images de façades pour prédiction multimodale.
-- Déploiement d’une API continue de rafraîchissement.
+- Intégration d'images de façades pour prédiction multimodale.
+- Déploiement d'une API continue de rafraîchissement.
 
 ---
 
@@ -203,9 +203,9 @@ Volumes persistants : `data/`, `models/`, `logs/`.
 ---
 
 ## 7. Conclusion
-Le projet **GreenTech Solutions** démontre la faisabilité d’un pipeline complet de Machine Learning appliqué aux données énergétiques publiques, combinant rigueur scientifique, automatisation et accessibilité utilisateur.
+Le projet **GreenTech Solutions** démontre la faisabilité d'un pipeline complet de Machine Learning appliqué aux données énergétiques publiques, combinant rigueur scientifique, automatisation et accessibilité utilisateur.
 
-Les modèles atteignent des performances très élevées (R² = 0.979, F1 = 0.97) et peuvent servir de base à des outils d’aide à la décision pour la rénovation énergétique et la planification territoriale.
+Les modèles atteignent des performances très élevées (R² = 0.979, F1 = 0.97) et peuvent servir de base à des outils d'aide à la décision pour la rénovation énergétique et la planification territoriale.
 
 Les prochaines étapes visent à :
 - Étendre la couverture géographique (niveau national).
