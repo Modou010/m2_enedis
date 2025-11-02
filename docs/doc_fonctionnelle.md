@@ -106,8 +106,8 @@ L'application comprend trois pages principales accessibles via la barre latéral
 
 ## Annexes - Captures d'écran
 
-### Page Contexte
-![capture_contexte](assets/capture_contexte.png)  
+### Page Accueil
+![capture_accueil](https://github.com/Modou010/m2_enedis/blob/Rina/docs/assets/img1.png)  
 *(à insérer : capture d'écran illustrant les visualisations principales de la page Contexte)*
 
 ### Page Prédiction
