@@ -243,10 +243,11 @@ docker-compose down
 ```
 
 ##  Accès aux services
-En ligne : 
+### En ligne : 
 - **Application streamlit** : https://greentech-streamlit-05km.onrender.com
 -  **Interface Api** : https://greentech-api-05km.onrender.com
-Une fois lancé en local:
+  
+### En local:
 
 - **Interface Streamlit** : [http://localhost:8501](http://localhost:8501)
 - **API FastAPI** : [http://localhost:8000](http://localhost:8000)
