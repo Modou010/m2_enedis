@@ -222,9 +222,13 @@ Affichage des prédictions avec `st.metric()`.
 Déploiement via Render (Free Tier).  
 Procfile et runtime configurés pour Streamlit.
 
-l'application est deployée sur render et accessible à ce lien : https://greentech-streamlit.onrender.com
-l'application ne charge pas les données car les fichiers de données et les différents sont trop lourds pour être importés sur github (resolution à venir).
-
+l'application est deployée sur render et accessible à ce lien : https://greentech-streamlit-05km.onrender.com et l'api : https://greentech-api-05km.onrender.com. 
+  
+### 6.2. Docker:
+les images dockers construits pointent ici :
+- **Interface Streamlit** : [http://localhost:8501](http://localhost:8501)
+- **API FastAPI** : [http://localhost:8000](http://localhost:8000)
+- **Documentation API** : [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ---
 
@@ -270,5 +274,6 @@ l'application ne charge pas les données car les fichiers de données et les dif
 
 Auteurs : Modou, Nico, Rina  
 Version : 1.0 – Novembre 2025
+
 
 
